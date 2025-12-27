@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeyakash | Premium Web Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <!-- Custom Configuration & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        royal: {
+                            800: '#1e3a8a', // Deep Royal Blue
+                            900: '#172554', // Darker Blue
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth Infinite Scroll Logic */
+        .swiper-wrapper {
+            transition-timing-function: linear;
+        }
+        
+        /* Premium Glow Effect */
+        .btn-premium {
+            transition: all 0.3s ease;
+        }
+        .btn-premium:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.6);
+        }
+        .btn-premium:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .menu-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .menu-visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden">
+
+    <!-- 1. Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-md">
+        <div class="container mx-auto px-6 md:px-16 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-bold text-royal-800 tracking-tighter">
+                JEYAKASH<span class="text-blue-500">.DEV</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 font-medium text-gray-700">
+                <a href="#home" class="hover:text-royal-800 transition">Home</a>
+                <a href="#business" class="hover:text-royal-800 transition">Business Website</a>
+                <a href="#portfolio" class="hover:text-royal-800 transition">Portfolio Website</a>
+                <a href="#about" class="hover:text-royal-800 transition">About</a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="menu-btn" class="md:hidden text-royal-800 text-2xl focus:outline-none btn-premium">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-royal-900 text-white p-6 flex flex-col items-center space-y-6 menu-hidden shadow-2xl">
+            <a href="#home" class="text-lg hover:text-blue-300" onclick="toggleMenu()">Home</a>
+            <a href="#business" class="text-lg hover:text-blue-300" onclick="toggleMenu()">Business Website</a>
+            <a href="#portfolio" class="text-lg hover:text-blue-300" onclick="toggleMenu()">Portfolio Website</a>
+            <a href="#about" class="text-lg hover:text-blue-300" onclick="toggleMenu()">About</a>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section & Video -->
+    <header id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="container mx-auto px-6 md:px-16 grid lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- Text Content -->
+            <div class="space-y-6">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-royal-900 leading-tight">
+                    We Build Websites that Build Your <span class="text-blue-600">Business</span> and <span class="text-blue-600">Career</span>.
+                </h1>
+                <p class="text-lg text-gray-600">Premium design, high performance, and luxury user experiences tailored for you.</p>
+                <div class="flex space-x-4">
+                    <a href="order.html" class="btn-premium bg-royal-800 text-white px-8 py-4 rounded-full font-semibold shadow-lg">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Smart Video Player -->
+            <div class="relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                <!-- Video Source: Using a placeholder tech video -->
+                <video id="heroVideo" class="w-full h-auto object-cover" autoplay muted loop playsinline poster="https://via.placeholder.com/800x450.png?text=Video+Loading">
+                    <source src="img/video1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+                <!-- Custom Controls -->
+            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+    
+    <button onclick="skipVideo(-10)" class="btn-premium bg-white text-royal-800 w-10 h-10 rounded-full flex items-center justify-center shadow-lg" title="Rewind 10s">
+        <i class="fas fa-undo"></i>
+    </button>
+
+    <button onclick="togglePlayPause()" id="playPauseBtn" class="btn-premium bg-white text-royal-800 w-14 h-14 rounded-full flex items-center justify-center shadow-lg" title="Play/Pause">
+        <i class="fas fa-play" id="playPauseIcon"></i>
+    </button>
+
+    <button onclick="skipVideo(10)" class="btn-premium bg-white text-royal-800 w-10 h-10 rounded-full flex items-center justify-center shadow-lg" title="Forward 10s">
+        <i class="fas fa-redo"></i>
+    </button>
+
+    <button onclick="toggleMute()" class="btn-premium bg-white text-royal-800 w-12 h-12 rounded-full flex items-center justify-center shadow-lg" title="Mute/Unmute">
+        <i class="fas fa-volume-mute" id="muteIcon"></i>
+    </button>
+</div>
+
+
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. Business Section & Reels -->
+    <section id="business" class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-16 mb-10">
+            <h2 class="text-3xl font-bold text-royal-900 text-center mb-12">Business Solutions</h2>
+            
+            <!-- Pricing Card -->
+            <div class="max-w-4xl mx-auto bg-gradient-to-r from-royal-900 to-royal-800 rounded-2xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-16">
+                <div class="absolute top-0 right-0 bg-yellow-400 text-royal-900 font-bold px-4 py-1 rounded-bl-lg text-sm">BEST VALUE</div>
+                <div class="md:flex justify-between items-center">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-2">Gold Business Plan</h3>
+                        <p class="text-blue-200 mb-4">Complete digital dominance for your company.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Google Ranking SEO</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Lifetime Premium Support</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> ₹300 per product update</li>
+                        </ul>
+                    </div>
+                    <div class="text-center md:text-right mt-6 md:mt-0">
+                        <p class="text-gray-400 line-through text-lg">₹5999</p>
+                        <p class="text-5xl font-bold text-white mb-4">₹2999</p>
+                        <a href="order.html?plan=Business%20Gold" class="btn-premium inline-block bg-white text-royal-900 px-8 py-3 rounded-full font-bold">Get Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infinite Auto-Scrolling Reels (Business) -->
+        <div class="swiper businessSwiper w-full py-10 bg-gray-50 border-y border-gray-200">
+            <div class="swiper-wrapper">
+                <!-- Slides (Simulating Reels) -->
+                <div class="swiper-slide h-64 bg-white rounded-xl shadow-md border border-gray-100 flex items-center justify-center text-gray-400"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-white rounded-xl shadow-md border border-gray-100 flex items-center justify-center text-gray-400"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-white rounded-xl shadow-md border border-gray-100 flex items-center justify-center text-gray-400"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-white rounded-xl shadow-md border border-gray-100 flex items-center justify-center text-gray-400"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-white rounded-xl shadow-md border border-gray-100 flex items-center justify-center text-gray-400"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 md:px-16">
+            <h2 class="text-3xl font-bold text-royal-900 text-center mb-12">Portfolio Packages</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- Basic -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border hover:border-blue-500 transition duration-300">
+                    <h3 class="text-xl font-bold text-gray-800">Basic</h3>
+                    <p class="text-4xl font-bold text-royal-800 my-4">₹950</p>
+                    <p class="text-sm text-gray-500 mb-6">Perfect for students.</p>
+                    <a href="order.html?plan=Portfolio%20Basic" class="btn-premium block text-center bg-gray-100 text-royal-800 py-3 rounded-lg font-semibold hover:bg-gray-200">Get Now</a>
+                </div>
+                <!-- Silver -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border hover:border-blue-500 transition duration-300 transform md:-translate-y-4">
+                    <h3 class="text-xl font-bold text-gray-800">Silver</h3>
+                    <p class="text-4xl font-bold text-royal-800 my-4">₹1999</p>
+                    <p class="text-sm text-gray-500 mb-6">For professionals.</p>
+                    <a href="order.html?plan=Portfolio%20Silver" class="btn-premium block text-center bg-royal-800 text-white py-3 rounded-lg font-semibold">Get Now</a>
+                </div>
+                <!-- Gold -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border hover:border-blue-500 transition duration-300">
+                    <h3 class="text-xl font-bold text-gray-800">Gold</h3>
+                    <p class="text-4xl font-bold text-royal-800 my-4">₹2999</p>
+                    <p class="text-sm text-gray-500 mb-6">Advanced features.</p>
+                    <a href="order.html?plan=Portfolio%20Gold" class="btn-premium block text-center bg-gray-100 text-royal-800 py-3 rounded-lg font-semibold hover:bg-gray-200">Get Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infinite Auto-Scrolling Reels (Portfolio) -->
+        <div class="swiper portfolioSwiper w-full py-10 bg-white border-y border-gray-200">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide h-64 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500"> <video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500"> <video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+                <div class="swiper-slide h-64 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500"><video class="w-full h-full object-cover" autoplay muted loop playsinline>
+    <source src="img/reel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video></div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. About Section -->
+    <section id="about" class="py-20 bg-royal-900 text-white">
+        <div class="container mx-auto px-6 md:px-16 text-center">
+            <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-6 border-4 border-blue-500 overflow-hidden">
+                <img src="https://via.placeholder.com/150?text=J" alt="Jeyakash" class="w-full h-full object-cover">
+            </div>
+            <h2 class="text-3xl font-bold mb-2">Jeyakash</h2>
+            <p class="text-blue-300 font-semibold mb-6">Senior Website Developer | 4+ Years Experience</p>
+            <p class="max-w-2xl mx-auto text-gray-300 leading-relaxed mb-8">
+                Specializing in building high-performance, luxury websites that convert visitors into customers. 
+                I blend technical expertise with premium design aesthetics to deliver products that stand out.
+            </p>
+            <a href="order.html" class="btn-premium inline-block border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-royal-900">Work With Me</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-gray-500 py-8 text-center text-sm">
+        &copy; 2025 Jeyakash.dev. All rights reserved.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // 1. Mobile Menu Logic (No Lag)
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('menu-hidden')) {
+                menu.classList.remove('menu-hidden');
+                menu.classList.add('menu-visible');
+            } else {
+                menu.classList.remove('menu-visible');
+                menu.classList.add('menu-hidden');
+            }
+        }
+        document.getElementById('menu-btn').addEventListener('click', toggleMenu);
+
+        // 2. Video Control Logic
+        const video = document.getElementById('heroVideo');
+        function controlVideo(action) {
+            if (action === 'play') video.play();
+            if (action === 'pause') video.pause();
+        }
+        function toggleMute() {
+            video.muted = !video.muted;
+            const icon = document.getElementById('muteIcon');
+            icon.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+        }
+
+        // 3. Swiper Configuration (Infinite Smooth Scroll)
+        const commonConfig = {
+            spaceBetween: 20,
+            loop: true,
+            speed: 4000, // Slow constant speed
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false, // Resume after interaction
+                pauseOnMouseEnter: false
+            },
+            freeMode: true,
+            freeModeMomentum: false,
+            breakpoints: {
+                320: { slidesPerView: 3 }, // Mobile
+                1024: { slidesPerView: 4 } // Desktop
+            }
+        };
+
+        new Swiper('.businessSwiper', commonConfig);
+        new Swiper('.portfolioSwiper', commonConfig);
+    </script>
+
+
+   <script>
+    function togglePlayPause() {
+        const video = document.querySelector('video');
+        const icon = document.getElementById('playPauseIcon');
+
+        if (video.paused) {
+            video.play();
+            // பிளே ஆகும்போது பாஸ் ஐகான் காட்டணும்
+            icon.classList.remove('fa-play');
+            icon.classList.add('fa-pause');
+        } else {
+            video.pause();
+            // பாஸ் ஆகும்போது பிளே ஐகான் காட்டணும்
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
+        }
+    }
+
+    function skipVideo(seconds) {
+        const video = document.querySelector('video');
+        video.currentTime += seconds;
+    }
+
+    // வீடியோ தானாகவே முடிஞ்சா மறுபடியும் பிளே ஐகான் வர்றதுக்கு
+    document.querySelector('video').onended = function() {
+        const icon = document.getElementById('playPauseIcon');
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+    };
+</script>
+
+
+
+
+</body>
+</html>

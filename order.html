@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Website | Jeyakash</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { royal: { 800: '#1e3a8a', 900: '#172554' } } }
+            }
+        }
+    </script>
+    <style>
+        .btn-premium:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4); }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+
+    <nav class="bg-royal-900 text-white py-4 shadow-md">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="font-bold text-xl">JEYAKASH<span class="text-blue-400">.DEV</span></a>
+            <a href="index.html" class="text-sm hover:text-blue-300">Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="flex-grow flex items-center justify-center py-12 px-4">
+        <div class="bg-white w-full max-w-lg p-8 rounded-2xl shadow-xl border-t-4 border-royal-800">
+            
+            <h1 class="text-2xl font-bold text-gray-800 mb-2 text-center">Start Your Project</h1>
+            <p class="text-center text-gray-500 mb-8">Fill the details below to confirm your slot.</p>
+
+            <div id="price-banner" class="bg-blue-50 border border-blue-200 text-royal-800 text-center py-3 rounded-lg mb-6 font-bold text-lg hidden">
+                Selected Plan: <span id="plan-name"></span> - <span id="plan-price"></span>
+            </div>
+
+            <form id="orderForm" onsubmit="sendToWhatsApp(event)" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullName" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-royal-800 focus:border-royal-800 outline-none transition" placeholder="John Doe">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-royal-800 focus:border-royal-800 outline-none transition" placeholder="+91 98765 43210">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-royal-800 focus:border-royal-800 outline-none transition" placeholder="john@example.com">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Select Plan</label>
+                    <select id="plan-select" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-royal-800 focus:border-royal-800 outline-none transition bg-white" onchange="updatePrice()">
+                        <option value="none" data-price="0">-- Select a Plan --</option>
+                        <option value="Business Gold" data-price="₹2999">Business Website (Gold) - ₹2999</option>
+                        <option value="Portfolio Basic" data-price="₹950">Portfolio (Basic) - ₹950</option>
+                        <option value="Portfolio Silver" data-price="₹1999">Portfolio (Silver) - ₹1999</option>
+                        <option value="Portfolio Gold" data-price="₹2999">Portfolio (Gold) - ₹2999</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Address / Project Brief</label>
+                    <textarea id="brief" rows="3" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-royal-800 focus:border-royal-800 outline-none transition" placeholder="Short description..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full btn-premium bg-royal-800 text-white font-bold py-4 rounded-lg shadow-lg mt-4">
+                    Confirm Order via WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const select = document.getElementById('plan-select');
+
+        function updatePrice() {
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            const banner = document.getElementById('price-banner');
+            
+            if (price && price !== "0") {
+                document.getElementById('plan-name').innerText = selectedOption.value;
+                document.getElementById('plan-price').innerText = price;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        // WhatsApp Logic மச்சான்!
+        function sendToWhatsApp(event) {
+            event.preventDefault(); // Form refresh ஆகாம தடுக்கும்
+
+            // கஸ்டமர் கொடுத்த நம்பரை எடுக்குறோம்
+            const name = document.getElementById('fullName').value;
+            const mobile = document.getElementById('mobileNumber').value;
+            const email = document.getElementById('email').value;
+            const plan = select.value;
+            const price = select.options[select.selectedIndex].getAttribute('data-price');
+            const brief = document.getElementById('brief').value;
+
+            // உன் வாட்ஸ்அப் நம்பரை இங்கே கொடு (Country code-ஓட கொடு மச்சான்)
+            const myPhoneNumber = "919876543210"; 
+
+            // மெசேஜ் பார்மட் பண்றோம்
+            const message = `*New Order Received!*%0A%0A` +
+                            `*Name:* ${name}%0A` +
+                            `*Mobile:* ${mobile}%0A` +
+                            `*Email:* ${email}%0A` +
+                            `*Plan:* ${plan} (${price})%0A` +
+                            `*Brief:* ${brief}`;
+
+            // வாட்ஸ்அப் விண்டோ ஓபன் பண்றோம்
+            const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Initialize on load
+        updatePrice();
+    </script>
+</body>
+</html>
